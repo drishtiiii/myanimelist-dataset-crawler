@@ -97,7 +97,7 @@ def fetch_anime_data(id):
 #     access_token, refresh_token = refresh_access_token(refresh_token, client_id, client_secret)
 
 # Fetch anime data for IDs 1 to 50,000
-for anime_id in range(100, 1000):
+for anime_id in range(1000, 10000):
     anime_data = fetch_anime_data(anime_id)
     print(f'Fetching anime with id {anime_id} ')
     if anime_data:
