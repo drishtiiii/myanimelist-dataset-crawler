@@ -1,0 +1,23 @@
+name: Execute Python Script
+
+on:
+  workflow_dispatch:  # Manually trigger the workflow
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9  # Replace with the desired Python version
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt  # If you have any dependencies, add them to requirements.txt
+
+      - name: Execute Python script
+        run: python anime.py  # Replace with the actual filename of your script
