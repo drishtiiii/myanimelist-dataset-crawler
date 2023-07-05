@@ -88,7 +88,7 @@ def fetch_manga_data(id):
 
 # Fetch anime data for IDs 1 to 50,000
 animelist_range = (1, 10000)
-mangalist_range = (30000, 60000)
+mangalist_range = (30000, 50000)
 
 for manga_id in range(mangalist_range[0], mangalist_range[1]):
     print(f'Fetching manga with id {manga_id} ')
