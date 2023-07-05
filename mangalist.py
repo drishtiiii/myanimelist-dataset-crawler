@@ -18,10 +18,8 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
 # Load access token and refresh token from external file
-with open("tokens.txt", "r") as file:
-    tokens = file.readlines()
-    access_token = tokens[0].strip()
-    refresh_token = tokens[1].strip()
+access_token = os.getenv("ACCESS_TOKEN")
+refresh_token = os.getenv("REFRESH_TOKEN")
 
 
 
