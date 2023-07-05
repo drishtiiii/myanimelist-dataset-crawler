@@ -30,7 +30,7 @@ jobs:
       - name: Print CSV file location
         run: |
           echo "CSV file location:"
-          ls -al an_1_100.csv
+          ls -al *.csv
         
       - name: commit and push
         run: |
