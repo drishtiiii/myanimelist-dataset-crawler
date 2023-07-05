@@ -26,3 +26,11 @@ jobs:
 
       - name: Execute Python script
         run: python anime.py  # Replace with the actual filename of your script
+      
+      - name: commit and push
+        run: |
+            git config user.name "${GITHUB_ACTOR}"
+            git config user.email "{GITHUB_ACTOR}@user.noreply.github.com"
+            git add -A
+            git commit -m "Added csv"
+            git push
