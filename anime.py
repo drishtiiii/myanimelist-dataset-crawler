@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import json
 import time
 import csv
-
+import numpy as np
 
 load_dotenv()
 
@@ -98,13 +98,19 @@ def fetch_anime_data(id):
 #     access_token, refresh_token = refresh_access_token(refresh_token, client_id, client_secret)
 
 # Fetch anime data for IDs 1 to 50,000
-for anime_id in range(1, 100):
+animelist_range = (1, 10000)
+
+for anime_id in range(animelist_range[0], animelist_range[1]):
     anime_data = fetch_anime_data(anime_id)
     print(f'Fetching anime with id {anime_id} ')
+    csv_file = f'animelist_{animelist_range[0]}_{animelist_range[1]}.csv'
     if anime_data:
         # saves into csv
-        json_to_csv(anime_data, "an_1_100.csv")
+        json_to_csv(anime_data, csv_file)
         
     time.sleep(RATE_LIMIT_DELAY)  # Delay between consecutive requests
 
+
+print(f'Errors: {ERR}, {API_ERR}')
+np.savez("err.npz", array1=np.array(ERR), array2=np.array(API_ERR))
 print("Anime data fetching completed.")
