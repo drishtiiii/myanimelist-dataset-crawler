@@ -13,21 +13,14 @@ MAX_REQUESTS = 90  # Maximum number of requests allowed per minute
 API_ERR = []
 ERR = []
 
-def json_to_csv(json_data, csv_file):
-    # Extract field names from the first item
-    field_names = list(json_data.keys())
-    file_exists = os.path.isfile(csv_file)
-
-    # Open CSV file in write mode
-    with open(csv_file, "a", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=field_names)
-
-        if not file_exists:
-            writer.writeheader()  # Write header if the file is empty
-        
-        writer.writerow(json_data)
-
-    print("Added to csv.")
+def add_to_json(json_obj, file):
+    # Convert the JSON object to a string
+    json_string = json.dumps(json_obj)
+    # Open the file in append mode and write the JSON object
+    with open(file, 'a') as file:
+        file.write(json_string + '\n')
+    
+    print("Added to file.")
 
 def refresh_access_token(refresh_token, client_id, client_secret):
     url = "https://myanimelist.net/v1/oauth2/token"
@@ -89,6 +82,33 @@ def fetch_anime_data(id):
         API_ERR.append(id)
         print("API Error:", e)
 
+def fetch_manga_data(id):
+    manga_id = id
+    fields = "id,title,main_picture,alternative_titles,start_date,end_date,synopsis,mean,rank,popularity,num_list_users,num_scoring_users,nsfw,created_at,updated_at,media_type,status,genres,my_list_status,num_volumes,num_chapters,authors{first_name,last_name},pictures,background,related_anime,related_manga,recommendations,serialization"
+
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+
+    url = f"https://api.myanimelist.net/v2/manga/{manga_id}?fields={fields}"
+
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            response.raise_for_status()
+            anime_data = response.json()
+            # print("Anime Data:", anime_data)
+            # json_data = json.dumps(anime_data, indent=4)
+            return anime_data
+        else:
+            ERR.append(id)
+            print("Error fetching manga data")
+            print(response.status_code)
+    except requests.exceptions.RequestException as e:
+        API_ERR.append(id)
+        print("API Error:", e)
+
 # fetch_anime_data(1)
 
 # Check if access token expired
@@ -99,18 +119,19 @@ def fetch_anime_data(id):
 
 # Fetch anime data for IDs 1 to 50,000
 animelist_range = (1, 10000)
+mangalist_range = (1, 30000)
 
-for anime_id in range(animelist_range[0], animelist_range[1]):
-    anime_data = fetch_anime_data(anime_id)
-    print(f'Fetching anime with id {anime_id} ')
-    csv_file = f'animelist_{animelist_range[0]}_{animelist_range[1]}.csv'
-    if anime_data:
+for manga_id in range(mangalist_range[0], mangalist_range[1]):
+    print(f'Fetching manga with id {manga_id} ')
+    manga_data = fetch_manga_data(manga_id)
+    file = f'mangalist_{mangalist_range[0]}_{mangalist_range[1]}.jsonl'
+    if manga_data:
         # saves into csv
-        json_to_csv(anime_data, csv_file)
+        add_to_json(manga_data, file)
         
     time.sleep(RATE_LIMIT_DELAY)  # Delay between consecutive requests
 
 
 print(f'Errors: {ERR}, {API_ERR}')
-np.savez("err.npz", array1=np.array(ERR), array2=np.array(API_ERR))
-print("Anime data fetching completed.")
+np.savez("Merr.npz", array1=np.array(ERR), array2=np.array(API_ERR))
+print("Manga data fetching completed.")
