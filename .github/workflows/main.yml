@@ -3,10 +3,7 @@ name: Execute Python Script
 on:
   workflow_dispatch:  # Manually trigger the workflow
 env:
-  CLIENT_ID: ${{ secrets.CLIENT_ID }}
-  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
   ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
 
 jobs:
   run_script:
