@@ -22,38 +22,7 @@ def add_to_json(json_obj, file):
     
     print("Added to file.")
 
-def refresh_access_token(refresh_token, client_id, client_secret):
-    url = "https://myanimelist.net/v1/oauth2/token"
-
-    payload = {
-        "grant_type": "refresh_token",
-        "client_id": client_id,
-        "client_secret": client_secret,
-        "refresh_token": refresh_token,
-    }
-
-    try:
-        response = requests.post(url, data=payload)
-        response.raise_for_status()
-        token_data = response.json()
-        access_token = token_data["access_token"]
-        refresh_token = token_data["refresh_token"]
-        print("Access Token Refreshed!")
-        return access_token, refresh_token
-    except requests.exceptions.RequestException as e:
-        print("Token Refresh Error:", e)
-
-# Load client ID and client secret from .env file
-client_id = os.getenv("CLIENT_ID")
-client_secret = os.getenv("CLIENT_SECRET")
-
-# Load access token and refresh token from external file
-# with open("tokens.txt", "r") as file:
-#     tokens = file.readlines()
-#     access_token = tokens[0].strip()
-#     refresh_token = tokens[1].strip()
 access_token = os.getenv("ACCESS_TOKEN")
-refresh_token = os.getenv("REFRESH_TOKEN")
 
 def fetch_anime_data(id):
     anime_id = id
@@ -119,7 +88,7 @@ def fetch_manga_data(id):
 
 # Fetch anime data for IDs 1 to 50,000
 animelist_range = (1, 10000)
-mangalist_range = (1, 30000)
+mangalist_range = (30000, 90000)
 
 for manga_id in range(mangalist_range[0], mangalist_range[1]):
     print(f'Fetching manga with id {manga_id} ')
