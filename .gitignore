@@ -1,6 +1,5 @@
 # User Files
-*.csv
-*.txt
+
 *.list
 .vscode
 
