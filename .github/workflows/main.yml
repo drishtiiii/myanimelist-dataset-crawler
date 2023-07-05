@@ -25,8 +25,8 @@ jobs:
         run: pip install -r requirements.txt  # If you have any dependencies, add them to requirements.txt
 
       - name: Execute Python script
-        run: python mangalist.py 
-        # run: python anime.py  # Replace with the actual filename of your script
+#         run: python mangalist.py 
+        run: python anime.py  # Replace with the actual filename of your script
       
       - name: Print CSV file location
         run: |
