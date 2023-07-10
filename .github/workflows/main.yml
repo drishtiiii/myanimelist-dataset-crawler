@@ -23,17 +23,12 @@ jobs:
 
       - name: Execute Python script
 #         run: python mangalist.py 
-        run: python anime.py  # Replace with the actual filename of your script
-      
-      - name: Print CSV file location
-        run: |
-          echo "CSV file location:"
-          ls -al *.csv
+        run: python userrating.py  # Replace with the actual filename of your script
         
       - name: commit and push
         run: |
             git config user.name "${GITHUB_ACTOR}"
             git config user.email "{GITHUB_ACTOR}@user.noreply.github.com"
             git add -A
-            git commit -m "Added csv"
+            git commit -m "Added jsonl"
             git push
