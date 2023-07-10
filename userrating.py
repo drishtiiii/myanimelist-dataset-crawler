@@ -85,7 +85,7 @@ def process_user(username):
 # process_user(username)
 
 # Load the JSON file
-with open('batch_1.json', 'r') as file:
+with open('batch_4.json', 'r') as file:
     batch_data = json.load(file)
 for index, username in enumerate(batch_data['usernames'],1):
     process_user(username)
